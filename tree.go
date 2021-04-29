@@ -222,6 +222,7 @@ func (t *Tree) rotateRight(node *node) {
 	node.parent = nodeLeft
 }
 
+// Size returns tree size. 
 func (t *Tree) Size() int {
 	return t.size
 }

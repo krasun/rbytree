@@ -78,11 +78,11 @@ func TestPutOverrrides(t *testing.T) {
 
 	value, ok := tree.Get([]byte{1})
 	if !ok {
-		t.Fatalf("key %d is not found, but must be overriden", 1)
+		t.Fatalf("key %d is not found, but must be overridden", 1)
 	}
 
 	if !bytes.Equal(value, []byte{2}) {
-		t.Fatalf("key %d is not overriden", 1)
+		t.Fatalf("key %d is not overridden", 1)
 	}
 }
 
@@ -226,9 +226,9 @@ func height(node *node) int {
 
 	if l > r {
 		return l + 1
-	} else {
-		return r + 1
 	}
+
+	return r + 1
 }
 
 const benchmarkKeyNum = 10000
