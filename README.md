@@ -83,16 +83,16 @@ $ go test -benchmem -bench .
 goos: darwin
 goarch: amd64
 pkg: github.com/krasun/rbytree
-BenchmarkTreePut-8                     	     355	   3251161 ns/op	 1039232 B/op	   39902 allocs/op
-BenchmarkTreePutRandomized-8           	     310	   3896154 ns/op	 1039221 B/op	   39901 allocs/op
-BenchmarkTreePutAndForEach-8           	     364	   3249646 ns/op	 1039230 B/op	   39902 allocs/op
-BenchmarkTreeGet-8                     	     774	   1677112 ns/op	   38880 B/op	    9900 allocs/op
-BenchmarkMapPut-8                      	     480	   2638418 ns/op	 1732639 B/op	   20151 allocs/op
-BenchmarkMapPutRandomized-8            	     582	   2145951 ns/op	  981695 B/op	   20111 allocs/op
-BenchmarkMapGet-8                      	    1552	    806005 ns/op	   38880 B/op	    9900 allocs/op
-BenchmarkMapPutAndIterateAfterSort-8   	     180	   6447948 ns/op	 2557653 B/op	   20171 allocs/op
+BenchmarkTreePut-8                     	     350	   3349885 ns/op	 1039231 B/op	   39902 allocs/op
+BenchmarkMapPut-8                      	     487	   2355075 ns/op	 1732415 B/op	   20151 allocs/op
+BenchmarkTreePutRandomized-8           	     298	   3977052 ns/op	 1039221 B/op	   39901 allocs/op
+BenchmarkMapPutRandomized-8            	     632	   1863399 ns/op	  981676 B/op	   20110 allocs/op
+BenchmarkTreePutAndForEach-8           	     355	   3343216 ns/op	 1039230 B/op	   39902 allocs/op
+BenchmarkMapGet-8                      	    1593	    736150 ns/op	   38880 B/op	    9900 allocs/op
+BenchmarkTreeGet-8                     	     768	   1519940 ns/op	   38880 B/op	    9900 allocs/op
+BenchmarkMapPutAndIterateAfterSort-8   	     208	   5720403 ns/op	 2558701 B/op	   20174 allocs/op
 PASS
-ok  	github.com/krasun/rbytree	13.273s
+ok  	github.com/krasun/rbytree	12.393s
 ```
 
 ## License 

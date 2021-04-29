@@ -251,6 +251,17 @@ func BenchmarkTreePut(b *testing.B) {
 	}
 }
 
+func BenchmarkMapPut(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		BenchmarkMap = make(map[string][]byte)
+
+		for k := benchmarkKeyNum; k > 0; k-- {
+			key := strconv.Itoa(k)
+			BenchmarkMap[key] = []byte(key)
+		}
+	}
+}
+
 func BenchmarkTreePutRandomized(b *testing.B) {
 	rand.Seed(time.Now().UnixNano())
 
@@ -260,6 +271,19 @@ func BenchmarkTreePutRandomized(b *testing.B) {
 		for k := benchmarkKeyNum; k > 0; k-- {
 			key := strconv.Itoa(rand.Intn(benchmarkKeyNum))
 			BenchmarkTree.Put([]byte(key), []byte(key))
+		}
+	}
+}
+
+func BenchmarkMapPutRandomized(b *testing.B) {
+	rand.Seed(time.Now().UnixNano())
+
+	for n := 0; n < b.N; n++ {
+		BenchmarkMap = make(map[string][]byte)
+
+		for k := benchmarkKeyNum; k > 0; k-- {
+			key := strconv.Itoa(rand.Intn(benchmarkKeyNum))
+			BenchmarkMap[key] = []byte(key)
 		}
 	}
 }
@@ -279,47 +303,6 @@ func BenchmarkTreePutAndForEach(b *testing.B) {
 	}
 }
 
-func BenchmarkTreeGet(b *testing.B) {
-	BenchmarkTree = New()
-	for k := benchmarkKeyNum; k > 0; k-- {
-		key := strconv.Itoa(k)
-		BenchmarkTree.Put([]byte(key), []byte(key))
-	}
-
-	b.ResetTimer()
-
-	for n := 0; n < b.N; n++ {
-		for k := 0; k < benchmarkKeyNum; k++ {
-			key := strconv.Itoa(k)
-			BenchmarkValue, _ = BenchmarkTree.Get([]byte(key))
-		}
-	}
-}
-
-func BenchmarkMapPut(b *testing.B) {
-	for n := 0; n < b.N; n++ {
-		BenchmarkMap = make(map[string][]byte)
-
-		for k := benchmarkKeyNum; k > 0; k-- {
-			key := strconv.Itoa(k)
-			BenchmarkMap[key] = []byte(key)
-		}
-	}
-}
-
-func BenchmarkMapPutRandomized(b *testing.B) {
-	rand.Seed(time.Now().UnixNano())
-
-	for n := 0; n < b.N; n++ {
-		BenchmarkMap = make(map[string][]byte)
-
-		for k := benchmarkKeyNum; k > 0; k-- {
-			key := strconv.Itoa(rand.Intn(benchmarkKeyNum))
-			BenchmarkMap[key] = []byte(key)
-		}
-	}
-}
-
 func BenchmarkMapGet(b *testing.B) {
 	BenchmarkMap = make(map[string][]byte)
 
@@ -334,6 +317,23 @@ func BenchmarkMapGet(b *testing.B) {
 		for k := 0; k < benchmarkKeyNum; k++ {
 			key := strconv.Itoa(k)
 			BenchmarkValue = BenchmarkMap[key]
+		}
+	}
+}
+
+func BenchmarkTreeGet(b *testing.B) {
+	BenchmarkTree = New()
+	for k := benchmarkKeyNum; k > 0; k-- {
+		key := strconv.Itoa(k)
+		BenchmarkTree.Put([]byte(key), []byte(key))
+	}
+
+	b.ResetTimer()
+
+	for n := 0; n < b.N; n++ {
+		for k := 0; k < benchmarkKeyNum; k++ {
+			key := strconv.Itoa(k)
+			BenchmarkValue, _ = BenchmarkTree.Get([]byte(key))
 		}
 	}
 }
