@@ -12,7 +12,7 @@ A [red-black tree](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) impleme
 
 To install, run:
 ```
-go get github.com/krasun/bytree
+go get github.com/krasun/rbytree
 ```
 
 ## Quickstart
