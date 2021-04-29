@@ -76,7 +76,7 @@ need to iterate over keys in sorted order, the picture is sligthly different:
 $ go test -benchmem -bench .
 goos: darwin
 goarch: amd64
-pkg: github.com/krasun/rbtree
+pkg: github.com/krasun/rbytree
 BenchmarkTreePut-8                     	     355	   3251161 ns/op	 1039232 B/op	   39902 allocs/op
 BenchmarkTreePutRandomized-8           	     310	   3896154 ns/op	 1039221 B/op	   39901 allocs/op
 BenchmarkTreePutAndForEach-8           	     364	   3249646 ns/op	 1039230 B/op	   39902 allocs/op
@@ -86,7 +86,7 @@ BenchmarkMapPutRandomized-8            	     582	   2145951 ns/op	  981695 B/op	
 BenchmarkMapGet-8                      	    1552	    806005 ns/op	   38880 B/op	    9900 allocs/op
 BenchmarkMapPutAndIterateAfterSort-8   	     180	   6447948 ns/op	 2557653 B/op	   20171 allocs/op
 PASS
-ok  	github.com/krasun/rbtree	13.273s
+ok  	github.com/krasun/rbytree	13.273s
 ```
 
 ## License 
