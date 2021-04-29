@@ -1,4 +1,4 @@
-# rbytree
+# **rb**y**tree**
 
 [![Build Status](https://travis-ci.com/krasun/rbytree.svg?branch=main)](https://travis-ci.com/krasun/rbytree)
 [![codecov](https://codecov.io/gh/krasun/rbytree/branch/main/graph/badge.svg?token=8NU6LR4FQD)](https://codecov.io/gh/krasun/rbytree)
@@ -18,15 +18,59 @@ go get github.com/krasun/bytree
 ## Quickstart
 
 Feel free to play: 
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/krasun/rbytree"
+)
+
+func main() {
+	tree := rbytree.New()
+
+	tree.Put([]byte("apple"), []byte("sweet"))
+	tree.Put([]byte("banana"), []byte("honey"))
+	tree.Put([]byte("cinnamon"), []byte("savoury"))
+
+	banana, ok := tree.Get([]byte("banana"))
+	if ok {
+		fmt.Println("banana = %s", string(banana))
+	}
+
+	tree.ForEach(func(key, value []byte) {
+		fmt.Printf("key = %s, value = %s\n", string(key), string(value))
+	})
+}
 ```
 
-```
+## Use cases 
+
+1. When you want to use []byte as a key in the map. 
+2. When you want to iterate over keys in map in sorted order.
 
 ## Limitations 
 
-...
+Caution! You can only use []byte slice keys in tree if you 100% can guarantee that the underlying array is not changed.
+
+You should clearly understand what []byte slice is and why it is dangerous to use it as a key. Go language authors do prohibit using byte slice ([]byte) as a map key for a reason. The point is that you can change the values of the key and thus violate the invariants of map: 
+
+```go
+// if it worked 
+b := []byte{1}
+m := make(map[[]byte]int)
+m[b] = 1
+
+b[0] = 2 // it would violate the invariants 
+m[[]byte{1}] // what do you expect to receive?
+```
 
 ## Benchmark
+
+Regular Go map is as twice faster for put and get than red-black tree. But if you 
+need to iterate over keys in sorted order, the picture is sligthly different: 
 
 ```
 $ go test -benchmem -bench .
@@ -47,4 +91,4 @@ ok  	github.com/krasun/rbtree	13.273s
 
 ## License 
 
-rbytree is released under [the MIT license](LICENSE).
+**rb**y**tree** is released under [the MIT license](LICENSE).
