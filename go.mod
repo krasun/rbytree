@@ -1,3 +1,3 @@
-module github.com/krasun/rbtree
+module github.com/krasun/rbytree
 
 go 1.14
