@@ -53,7 +53,7 @@ func main() {
 
 ## Limitations 
 
-Caution! You can only use []byte slice keys in tree if you 100% can guarantee that the underlying array is not changed.
+**Caution!** You can only use []byte slice keys in tree if you 100% can guarantee that the underlying array is not changed.
 
 You should clearly understand what []byte slice is and why it is dangerous to use it as a key. Go language authors do prohibit using byte slice ([]byte) as a map key for a reason. The point is that you can change the values of the key and thus violate the invariants of map: 
 
