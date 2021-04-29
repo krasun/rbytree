@@ -36,6 +36,9 @@ func New() *Tree {
 
 // Put inserts the key with the associated value into the tree.
 func (t *Tree) Put(key []byte, value []byte) {
+	// too guarantee that the invariants are not violated
+	key = copyBytes(key)
+
 	newNode := &node{key, value, nil, nil, nil, red}
 	if t.root == nil {
 		newNode.color = black
@@ -222,7 +225,14 @@ func (t *Tree) rotateRight(node *node) {
 	node.parent = nodeLeft
 }
 
-// Size returns tree size. 
+// Size returns tree size.
 func (t *Tree) Size() int {
 	return t.size
+}
+
+func copyBytes(s []byte) []byte {
+	c := make([]byte, len(s))
+	copy(c, s)
+
+	return c
 }

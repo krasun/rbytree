@@ -288,21 +288,6 @@ func BenchmarkMapPutRandomized(b *testing.B) {
 	}
 }
 
-func BenchmarkTreePutAndForEach(b *testing.B) {
-	for n := 0; n < b.N; n++ {
-		BenchmarkTree = New()
-
-		for k := benchmarkKeyNum; k > 0; k-- {
-			key := strconv.Itoa(k)
-			BenchmarkTree.Put([]byte(key), []byte(key))
-		}
-
-		BenchmarkTree.ForEach(func(k, v []byte) {
-			BenchmarkValue = v
-		})
-	}
-}
-
 func BenchmarkMapGet(b *testing.B) {
 	BenchmarkMap = make(map[string][]byte)
 
@@ -335,6 +320,21 @@ func BenchmarkTreeGet(b *testing.B) {
 			key := strconv.Itoa(k)
 			BenchmarkValue, _ = BenchmarkTree.Get([]byte(key))
 		}
+	}
+}
+
+func BenchmarkTreePutAndForEach(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		BenchmarkTree = New()
+
+		for k := benchmarkKeyNum; k > 0; k-- {
+			key := strconv.Itoa(k)
+			BenchmarkTree.Put([]byte(key), []byte(key))
+		}
+
+		BenchmarkTree.ForEach(func(k, v []byte) {
+			BenchmarkValue = v
+		})
 	}
 }
 
