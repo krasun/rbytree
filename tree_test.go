@@ -110,8 +110,15 @@ func TestNil(t *testing.T) {
 func TestPutOverrides(t *testing.T) {
 	tree := New()
 
-	tree.Put([]byte{1}, []byte{1})
-	tree.Put([]byte{1}, []byte{2})
+	prev := tree.Put([]byte{1}, []byte{1})
+	if prev != nil {
+		t.Fatal("previous value must be nil for the new key")
+	}
+
+	prev = tree.Put([]byte{1}, []byte{2})
+	if !bytes.Equal(prev, []byte{1}) {
+		t.Fatalf("previous value must be %v, but got %v", []byte{1}, prev)
+	}
 
 	value, ok := tree.Get([]byte{1})
 	if !ok {
