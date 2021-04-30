@@ -2,13 +2,13 @@ package rbytree
 
 import (
 	"bytes"
+	"fmt"
 	"math"
 	"math/rand"
 	"sort"
 	"strconv"
 	"testing"
 	"time"
-	"fmt"
 )
 
 func Example() {
@@ -29,7 +29,7 @@ func Example() {
 		fmt.Printf("key = %s, value = %s\n", string(key), string(value))
 	})
 
-	// Output: 
+	// Output:
 	// banana = honey
 	// key = apple, value = sweet
 	// key = banana, value = honey
@@ -93,6 +93,17 @@ func TestSize(t *testing.T) {
 
 		tree.Put([]byte{c.key}, []byte(c.value))
 		expected++
+	}
+}
+
+func TestNil(t *testing.T) {
+	tree := New()
+
+	tree.Put(nil, []byte{1})
+
+	_, ok := tree.Get(nil)
+	if !ok {
+		t.Fatalf("key nil is not found")
 	}
 }
 
