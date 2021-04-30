@@ -70,7 +70,7 @@ func TestSize(t *testing.T) {
 	}
 }
 
-func TestPutOverrrides(t *testing.T) {
+func TestPutOverrides(t *testing.T) {
 	tree := New()
 
 	tree.Put([]byte{1}, []byte{1})
@@ -154,7 +154,7 @@ func TestRedBlackTreeProperties(t *testing.T) {
 		t.Fatal("tree root is not black")
 	}
 
-	if hasAdjancentRedNodes(tree.root) {
+	if hasAdjacentRedNodes(tree.root) {
 		t.Fatal("tree has adjacent red nodes")
 	}
 
@@ -212,7 +212,7 @@ func checkBlackNodes(node *node) bool {
 	return true
 }
 
-func hasAdjancentRedNodes(node *node) bool {
+func hasAdjacentRedNodes(node *node) bool {
 	return node.parent != nil && node.parent.color == red && node.color == red
 }
 
@@ -233,7 +233,7 @@ func height(node *node) int {
 
 const benchmarkKeyNum = 10000
 
-// to avoid code elimitation by compiler
+// to avoid code elimination by compiler
 var BenchmarkTree *Tree
 var BenchmarkValue []byte
 
