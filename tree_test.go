@@ -8,7 +8,33 @@ import (
 	"strconv"
 	"testing"
 	"time"
+	"fmt"
 )
+
+func Example() {
+	tree := New()
+
+	tree.Put([]byte("apple"), []byte("sweet"))
+	tree.Put([]byte("banana"), []byte("honey"))
+	tree.Put([]byte("cinnamon"), []byte("savoury"))
+
+	banana, ok := tree.Get([]byte("banana"))
+	if ok {
+		fmt.Printf("banana = %s\n", string(banana))
+	} else {
+		fmt.Println("value for banana not found")
+	}
+
+	tree.ForEach(func(key, value []byte) {
+		fmt.Printf("key = %s, value = %s\n", string(key), string(value))
+	})
+
+	// Output: 
+	// banana = honey
+	// key = apple, value = sweet
+	// key = banana, value = honey
+	// key = cinnamon, value = savoury
+}
 
 var cases = []struct {
 	key   byte

@@ -38,7 +38,6 @@ func main() {
 	banana, ok := tree.Get([]byte("banana"))
 	if ok {
 		fmt.Printf("banana = %s\n", string(banana))
-		// banana = honey
 	} else {
 		fmt.Println("value for banana not found")
 	}
@@ -46,6 +45,9 @@ func main() {
 	tree.ForEach(func(key, value []byte) {
 		fmt.Printf("key = %s, value = %s\n", string(key), string(value))
 	})
+
+	// Output: 
+	// banana = honey
 	// key = apple, value = sweet
 	// key = banana, value = honey
 	// key = cinnamon, value = savoury
