@@ -185,6 +185,25 @@ func TestEachForEmptyTree(t *testing.T) {
 	})
 }
 
+func TestKeyOrder(t *testing.T) {
+	tree := New()
+	for _, c := range cases {
+		tree.Put([]byte{c.key}, []byte(c.value))
+	}
+
+	keys := make([]byte, len(cases))
+	tree.ForEach(func(key, value []byte) {
+		keys = append(keys, key[0])
+	})
+
+	isSorted := sort.SliceIsSorted(keys, func(i, j int) bool {
+		return keys[i] < keys[j]
+	})
+	if !isSorted {
+		t.Fatal("keys are not sorted")
+	}
+}
+
 func TestRedBlackTreeProperties(t *testing.T) {
 	tree := New()
 	n := 256
