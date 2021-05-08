@@ -55,6 +55,48 @@ func main() {
 }
 ```
 
+You can use an iterator: 
+
+```go
+package main
+
+import (
+	"fmt"
+
+	"github.com/krasun/rbytree"
+)
+
+func main() {
+	tree := rbytree.New()
+
+	tree.Put([]byte("apple"), []byte("sweet"))
+	tree.Put([]byte("banana"), []byte("honey"))
+	tree.Put([]byte("cinnamon"), []byte("savoury"))
+
+	banana, ok := tree.Get([]byte("banana"))
+	if ok {
+		fmt.Printf("banana = %s\n", string(banana))
+	} else {
+		fmt.Println("value for banana not found")
+	}
+
+	for it := tree.Iterator(); it.HasNext(); {
+		key, value := it.Next()
+		fmt.Printf("key = %s, value = %s\n", string(key), string(value))
+	}
+
+	// Output: 
+	// banana = honey
+	// key = apple, value = sweet
+	// key = banana, value = honey
+	// key = cinnamon, value = savoury
+}
+```
+
+An iterator is stateful. You can have multiple iterators without any impact on each other, but make sure to synchronize access to them and the tree in a concurrent environment.
+
+Caution! `Next` panics if there is no next element. Make sure to test for the next element with `HasNext` before.
+
 ## Use cases 
 
 1. When you want to use []byte as a key in the map. 
@@ -88,16 +130,16 @@ $ go test -benchmem -bench .
 goos: darwin
 goarch: amd64
 pkg: github.com/krasun/rbytree
-BenchmarkTreePut-8                     	     332	   3538876 ns/op	 1040040 B/op	   49902 allocs/op
-BenchmarkMapPut-8                      	     500	   2399698 ns/op	 1732282 B/op	   20150 allocs/op
-BenchmarkTreePutRandomized-8           	     288	   4188292 ns/op	 1040028 B/op	   49899 allocs/op
-BenchmarkMapPutRandomized-8            	     626	   1879120 ns/op	  981475 B/op	   20110 allocs/op
-BenchmarkMapGet-8                      	    1612	    725188 ns/op	   38880 B/op	    9900 allocs/op
-BenchmarkTreeGet-8                     	     783	   1543038 ns/op	   38880 B/op	    9900 allocs/op
-BenchmarkTreePutAndForEach-8           	     312	   3814416 ns/op	 1040039 B/op	   49902 allocs/op
-BenchmarkMapPutAndIterateAfterSort-8   	     214	   5982573 ns/op	 2558689 B/op	   20174 allocs/op
+BenchmarkTreePut-8                     	     330	   3573752 ns/op	 1040040 B/op	   49902 allocs/op
+BenchmarkMapPut-8                      	     496	   2477226 ns/op	 1732586 B/op	   20151 allocs/op
+BenchmarkTreePutRandomized-8           	     260	   4394145 ns/op	 1040029 B/op	   49901 allocs/op
+BenchmarkMapPutRandomized-8            	     630	   1890784 ns/op	  981565 B/op	   20111 allocs/op
+BenchmarkMapGet-8                      	    1496	    768210 ns/op	   38880 B/op	    9900 allocs/op
+BenchmarkTreeGet-8                     	     723	   1604544 ns/op	   38880 B/op	    9900 allocs/op
+BenchmarkTreePutAndForEach-8           	     300	   4056864 ns/op	 1040043 B/op	   49903 allocs/op
+BenchmarkMapPutAndIterateAfterSort-8   	     202	   5559646 ns/op	 2558408 B/op	   20173 allocs/op
 PASS
-ok  	github.com/krasun/rbytree	12.478s
+ok  	github.com/krasun/rbytree	12.096s
 ```
 
 ## Tests

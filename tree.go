@@ -107,34 +107,11 @@ func (t *Tree) Get(key []byte) ([]byte, bool) {
 	return nil, false
 }
 
-// ForEach traverses tree in ascending order.
-// The function uses Morris in-order traversal
-// (https://en.wikipedia.org/wiki/Tree_traversal#Morris_in-order_traversal_using_threading).
+// ForEach traverses tree in ascending key order.
 func (t *Tree) ForEach(action func(key []byte, value []byte)) {
-	current := t.root
-	for current != nil {
-		if current.left == nil {
-			action(current.key, current.value)
-			current = current.right
-		} else {
-			// find theinorder predecessor of the current
-			predecessor := current.left
-			for predecessor.right != nil && predecessor.right != current {
-				predecessor = predecessor.right
-			}
-
-			if predecessor.right == nil {
-				// make the current as the right
-				// child of its inorder predecessor
-				predecessor.right = current
-				current = current.left
-			} else {
-				// revert the changes
-				predecessor.right = nil
-				action(current.key, current.value)
-				current = current.right
-			}
-		}
+	for it := t.Iterator(); it.HasNext(); {
+		key, value := it.Next()
+		action(key, value)
 	}
 }
 

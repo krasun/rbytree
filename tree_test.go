@@ -37,7 +37,7 @@ func Example() {
 	// key = cinnamon, value = savoury
 }
 
-var cases = []struct {
+var treeCases = []struct {
 	key   byte
 	value string
 }{
@@ -67,11 +67,11 @@ func TestNew(t *testing.T) {
 func TestPutAndGet(t *testing.T) {
 	tree := New()
 
-	for _, c := range cases {
+	for _, c := range treeCases {
 		tree.Put([]byte{c.key}, []byte(c.value))
 	}
 
-	for _, c := range cases {
+	for _, c := range treeCases {
 		value, ok := tree.Get([]byte{c.key})
 		if !ok {
 			t.Fatalf("failed to get value by key %d", c.key)
@@ -87,7 +87,7 @@ func TestSize(t *testing.T) {
 	tree := New()
 
 	expected := 0
-	for _, c := range cases {
+	for _, c := range treeCases {
 		if expected != tree.Size() {
 			t.Fatalf("actual size %d is not equal to expected size %d", tree.Size(), expected)
 		}
@@ -134,7 +134,7 @@ func TestPutOverrides(t *testing.T) {
 func TestGetForNonExistentValue(t *testing.T) {
 	tree := New()
 
-	for _, c := range cases {
+	for _, c := range treeCases {
 		tree.Put([]byte{c.key}, []byte(c.value))
 	}
 
@@ -161,7 +161,7 @@ func TestGetForEmptyTree(t *testing.T) {
 
 func TestForEach(t *testing.T) {
 	tree := New()
-	for _, c := range cases {
+	for _, c := range treeCases {
 		tree.Put([]byte{c.key}, []byte(c.value))
 	}
 
@@ -178,11 +178,11 @@ func TestForEach(t *testing.T) {
 	}
 
 	expected := make([]byte, 0)
-	for _, c := range cases {
+	for _, c := range treeCases {
 		expected = append(expected, c.key)
 	}
 	sort.Slice(expected, func(i, j int) bool {
-		return expected[i] < expected[j] 
+		return expected[i] < expected[j]
 	})
 
 	if !reflect.DeepEqual(expected, actual) {
@@ -194,17 +194,17 @@ func TestForEachForEmptyTree(t *testing.T) {
 	tree := New()
 
 	tree.ForEach(func(key []byte, value []byte) {
-		t.Error("call is not expected")
+		t.Fatal("call is not expected")
 	})
 }
 
 func TestKeyOrder(t *testing.T) {
 	tree := New()
-	for _, c := range cases {
+	for _, c := range treeCases {
 		tree.Put([]byte{c.key}, []byte(c.value))
 	}
 
-	keys := make([]byte, len(cases))
+	keys := make([]byte, len(treeCases))
 	tree.ForEach(func(key, value []byte) {
 		keys = append(keys, key[0])
 	})
