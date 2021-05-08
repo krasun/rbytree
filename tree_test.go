@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"reflect"
 	"sort"
 	"strconv"
 	"testing"
@@ -158,7 +159,7 @@ func TestGetForEmptyTree(t *testing.T) {
 	}
 }
 
-func TestEach(t *testing.T) {
+func TestForEach(t *testing.T) {
 	tree := New()
 	for _, c := range cases {
 		tree.Put([]byte{c.key}, []byte(c.value))
@@ -175,9 +176,21 @@ func TestEach(t *testing.T) {
 	if !isSorted {
 		t.Fatalf("each does not traverse in sorted order, produced result: %s", actual)
 	}
+
+	expected := make([]byte, 0)
+	for _, c := range cases {
+		expected = append(expected, c.key)
+	}
+	sort.Slice(expected, func(i, j int) bool {
+		return expected[i] < expected[j] 
+	})
+
+	if !reflect.DeepEqual(expected, actual) {
+		t.Fatalf("%s != %s", expected, actual)
+	}
 }
 
-func TestEachForEmptyTree(t *testing.T) {
+func TestForEachForEmptyTree(t *testing.T) {
 	tree := New()
 
 	tree.ForEach(func(key []byte, value []byte) {
