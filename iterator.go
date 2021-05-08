@@ -19,6 +19,7 @@ func (t *Tree) Iterator() *Iterator {
 	return &Iterator{next}
 }
 
+// HasNext returns true if there is a next element to retrive.
 func (it *Iterator) HasNext() bool {
 	return it.next != nil
 }
