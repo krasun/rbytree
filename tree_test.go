@@ -68,7 +68,13 @@ func TestPutAndGet(t *testing.T) {
 	tree := New()
 
 	for _, c := range treeCases {
-		tree.Put([]byte{c.key}, []byte(c.value))
+		prev, exists := tree.Put([]byte{c.key}, []byte(c.value))
+		if prev != nil {
+			t.Fatalf("the key already exists %v", c.key)
+		}
+		if exists {
+			t.Fatalf("the key already exists %v", c.key)
+		}
 	}
 
 	for _, c := range treeCases {
@@ -111,14 +117,20 @@ func TestNil(t *testing.T) {
 func TestPutOverrides(t *testing.T) {
 	tree := New()
 
-	prev := tree.Put([]byte{1}, []byte{1})
+	prev, exists := tree.Put([]byte{1}, []byte{1})
 	if prev != nil {
 		t.Fatal("previous value must be nil for the new key")
 	}
+	if exists {
+		t.Fatal("previous value must be nil for the new key")
+	}
 
-	prev = tree.Put([]byte{1}, []byte{2})
+	prev, exists = tree.Put([]byte{1}, []byte{2})
 	if !bytes.Equal(prev, []byte{1}) {
 		t.Fatalf("previous value must be %v, but got %v", []byte{1}, prev)
+	}
+	if !exists {
+		t.Fatalf("exists must be true for key %v", []byte{1})
 	}
 
 	value, ok := tree.Get([]byte{1})

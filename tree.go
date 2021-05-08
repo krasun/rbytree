@@ -37,7 +37,9 @@ func New() *Tree {
 // Put inserts the key with the associated value into the tree.
 // If the key is already in the map, it overrides the value and
 // returns the previous value.
-func (t *Tree) Put(key []byte, value []byte) []byte {
+// Since the value might be null, it also returns a boolean flag
+// to distinguish between existent keys and not.
+func (t *Tree) Put(key []byte, value []byte) ([]byte, bool) {
 	// too guarantee that the invariants are not violated
 	key = copyBytes(key)
 
@@ -47,7 +49,7 @@ func (t *Tree) Put(key []byte, value []byte) []byte {
 		t.root = newNode
 		t.size = 1
 
-		return nil
+		return nil, false
 	}
 
 	current := t.root
@@ -61,7 +63,7 @@ func (t *Tree) Put(key []byte, value []byte) []byte {
 			prev := current.value
 			current.value = value
 
-			return prev
+			return prev, true
 		}
 
 		if cmp < 0 {
@@ -82,7 +84,7 @@ func (t *Tree) Put(key []byte, value []byte) []byte {
 
 	t.size++
 
-	return nil
+	return nil, false
 }
 
 // Get searches the key and returns the associated value and true if found,
