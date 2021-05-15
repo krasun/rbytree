@@ -151,6 +151,10 @@ $ go test -cover .
 ok  	github.com/krasun/rbytree	0.245s	coverage: 100.0% of statements
 ```
 
+## Known Usages 
+
+1. [krasun/lsmtree](https://github.com/krasun/lsmtree) - my experimental implementation of [log-structured merge-tree](https://en.wikipedia.org/wiki/Log-structured_merge-tree).
+
 ## License 
 
 **rb**y**tree** is released under [the MIT license](LICENSE).
