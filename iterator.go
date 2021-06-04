@@ -27,7 +27,7 @@ func (it *Iterator) HasNext() bool {
 // Next returns a key and a value at the current position of the iteration
 // and advances the iterator.
 // Caution! Next panics if called on the nil element.
-func (it *Iterator) Next() (key, value []byte) {
+func (it *Iterator) Next() ([]byte, []byte) {
 	if !it.HasNext() {
 		// to sleep well
 		panic("there is no next node")
